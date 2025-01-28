@@ -1,7 +1,13 @@
 # Dotfiles
 
 - Non-sensitive configuration files
+    - Brew
+    - Stow
+    - MesloLGS NF Font
+    - Iterm2
+    - VSCode
 - Sensitive configuration files
+    - migration.sh
 
 ## Non-sensitive
 
@@ -17,6 +23,29 @@ brew bundle install --file=Brewfile
 ```bash
 ./install.sh
 ```
+
+### MesloLGS NF Font
+
+```bash
+installFonts(){
+    # Install the fonts manually and trigger fontBook
+    FONT_NAME="MesloLGS\ NF\ Regular.ttf"
+    curl -L "https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Regular.ttf" --output $HOME/Downloads/$FONT_NAME
+    open -b com.apple.FontBook $HOME/Downloads/$FONT_NAME
+}
+installFonts
+```
+
+### Iterm2
+
+1. Set color preset to `Solarized Dark` at `Preferences > Profiles > Colors`
+2. Set font to `MesloLGS NF` at `Preferences > Profiles > Text`
+
+### VSCode
+
+1. Set font to `MesloLGS NF` at `Settings > Editor: Font Family`
+2. Set color theme to `One Dark Pro` at `Settings > Color Theme`
+3. Set `autoSave` to `afterDelay` at `Settings > Files: Auto Save`
 
 ### Oh My Zsh
 

@@ -97,6 +97,10 @@ cask "google-cloud-sdk"
 cask "rar"
 # System monitor for the menu bar
 cask "stats"
+# Terminal emulator as alternative to Apple's Terminal app
+cask "iterm2"
+# App to build and share containerised applications and microservices
+cask "docker"
 vscode "bierner.markdown-mermaid"
 vscode "eamodio.gitlens"
 vscode "esbenp.prettier-vscode"
