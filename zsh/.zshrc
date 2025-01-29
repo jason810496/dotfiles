@@ -98,6 +98,9 @@ export PATH="/Library/Apple/usr/bin:$PATH"
 export PATH="/Users/jason/.rvm/scripts/rvm:$PATH"
 export PATH="/Users/jason/.rvm/bin:$PATH"
 export PATH="~/.yarn/bin:$PATH"
+export LDFLAGS="-L$(brew --prefix openssl)/lib"
+export CPPFLAGS="-I$(brew --prefix openssl)/include"
+export PKG_CONFIG_PATH="$(brew --prefix openssl)/lib/pkgconfig"
 #export MANPATH="/usr/local/man:$MANPATH"
 export NVM_DIR="$HOME/.nvm"
 [ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"  # This loads nvm
@@ -143,3 +146,9 @@ source /Users/jason/Desktop/airflow/dev/breeze/autocomplete/breeze-complete-zsh.
 # END: Added by Updated Airflow Breeze autocomplete setup
 #
 # git alias
+
+gmb() {
+  local base
+  base=$(git merge-base "$1" "$2")
+  git rebase "$base" --onto "$2"
+}
