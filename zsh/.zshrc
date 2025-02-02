@@ -77,7 +77,7 @@ ZSH_THEME="powerlevel10k/powerlevel10k"
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=( git zsh-autosuggestions docker docker-compose kubectl )
+plugins=( git zsh-autosuggestions docker docker-compose kubectl zsh-pre-commit-autocomplete)
 
 # Have some issues with zsh-vi-mode
 # plugins+=(zsh-vi-mode)
@@ -101,10 +101,6 @@ export PATH="~/.yarn/bin:$PATH"
 export LDFLAGS="-L$(brew --prefix openssl)/lib"
 export CPPFLAGS="-I$(brew --prefix openssl)/include"
 export PKG_CONFIG_PATH="$(brew --prefix openssl)/lib/pkgconfig"
-#export MANPATH="/usr/local/man:$MANPATH"
-export NVM_DIR="$HOME/.nvm"
-[ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"  # This loads nvm
-[ -s "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
 # You may need to manually set your language environment
 # export LANG=en_US.UTF-8
 
@@ -144,11 +140,35 @@ export PATH=$(go env GOPATH)/bin:$PATH
 # START: Added by Updated Airflow Breeze autocomplete setup
 source /Users/jason/Desktop/airflow/dev/breeze/autocomplete/breeze-complete-zsh.sh
 # END: Added by Updated Airflow Breeze autocomplete setup
-#
-# git alias
 
+# Utils
+notify() {
+  # Usage: <your long-running command>; notify
+  # Useful for docker build, etc.
+  if [[ $? -eq 0 ]]; then
+    osascript -e 'display notification "✅ Success!" with title "Command Completed"'
+    afplay /System/Library/Sounds/Glass.aiff
+  else
+    osascript -e 'display notification "❌ Failed!" with title "Command Failed"'
+    afplay /System/Library/Sounds/Basso.aiff
+  fi
+}
+
+
+
+# git alias
 gmb() {
   local base
+  if [[ $(git symbolic-ref --short HEAD) != "$1" ]]; then
+    echo "Current branch is not $1, checking out $1"
+    git checkout "$1"
+  fi
+  echo "Rebasing $1 onto $2"
   base=$(git merge-base "$1" "$2")
   git rebase "$base" --onto "$2"
 }
+alias gch='git checkout'
+alias gf='git fetch'
+alias gr='git rebase'
+
+
